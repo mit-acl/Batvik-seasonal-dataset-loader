@@ -10,7 +10,7 @@ Paper: https://arxiv.org/abs/2401.04791
 
 ### Description of data
 
-The dataset contains recordings of six flights along the same trajectory in coastal Finland. The flights take place at different times of the year, and therefore the images contain significant seasonal appearance variation.
+The dataset contains recordings of six flights along the same trajectory in coastal Finland. The flights take place at different times of the year. The images contain significant seasonal appearance variation.
 
 The following measurements, and much more, are available in the dataset:
 - Image frames from a camera carried by a drone
@@ -33,6 +33,7 @@ If you decide to use this dataset in your work, please cite it:
 }
 ```
 
+### Further information
 
 For questions related to this repository, feel free to contact Jouko Kinnari.
 
@@ -61,9 +62,9 @@ The `--orthotiff` parameter is optional and can be used for specifying a map ima
 
 The data was recorded with a somewhat unoptimal hardware setup (the hardware was designed for a surveillance application and not for photogrammetry). Due to the hardware configuration in the drone used for data collection, a part of the data was collected at a high image resolution, which caused some timing jitter on the timestamps of the images. The resolution was later configured to a lower one, hence some of the data have higher resolution images than others.
 
-The ground truth position infromation is from a non-RTK GPS. What comes to altitude measurements, the drone was equipped with a downward-facing LIDAR sensor and also two barometers. The LIDAR range is about 20m, so it only shows a meaningful measurement value when the drone is ascending or descending near the start and return locations.
+The ground truth position infromation is from a non-RTK GPS. The camera orientation information is computed as a combination of two transformations. First, the drone frame pose is estimated by the drone flight controller EKF and second, the orientation of the camera with respect to the drone frame is measured with rotation encoders in the camera gimbal. So do expect some error with the orientation information as well - it won't be pixel perfect if you e.g. compute the reprojection error of the same landmark observed from two different places.
 
-On ground truth orientation information: The camera orientation information is computed as a combination of two transformations. First, the drone frame pose is estimated by the drone flight controller EKF and second, the orientation of the camera with respect to the drone frame is measured with rotation encoders in the camera gimbal. So do expect some error with the orientation information as well - it won't be pixel perfect if you e.g. compute the reprojection error of the same landmark observed from two different places.
+The drone was equipped with a downward-facing LIDAR sensor and two barometers. The LIDAR range is about 20m, so it only shows a meaningful measurement value when the drone is ascending or descending near the start and return locations.
 
 ## Camera parameters
 
