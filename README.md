@@ -1,93 +1,102 @@
-# Båtvik seasonal dataset loader
+# Båtvik Seasonal Dataset loader
 
+## Information
 
+This repository contains Python scripts that can be used for parsing the data that was released as part of the ["SOS-Match: Segmentation for Open-Set Robust Correspondence Search and Robot Localization in Unstructured Environments"](https://acl.mit.edu/SOS-Match/) paper.
 
-## Getting started
+Website: https://acl.mit.edu/SOS-Match/
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Paper: https://arxiv.org/abs/2401.04791
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### Description of data
 
-## Add your files
+The dataset contains recordings of six flights along the same trajectory in coastal Finland. The flights take place at different times of the year, and therefore the images contain significant seasonal appearance variation.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+The following measurements, and much more, are available in the dataset:
+- Image frames from a camera carried by a drone
+- Camera position and orientation information in a georeferenced coordinate system
+- Raw IMU data
+- Downward-facing LIDAR rangefinder measurements, barometer measurements
+- Drone motor speed control reference signals
+
+For a complete description, see the files `readBatvikData.py` and `plotBatvikData.py`.
+
+### Citing
+If you decide to use this dataset in your work, please cite it:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/mit-acl/clipper/uncertain-localization/batvik-seasonal-dataset-loader.git
-git branch -M main
-git push -uf origin main
+@article{thomas2024sosmatch,
+  author    = {Thomas, Annika and Kinnari, Jouko and Lusk, Parker and Konda, Kota and How, Jonathan},
+  title     = {SOS-Match: Segmentation for Open-Set Robust Correspondence Search and Robot Localization in Unstructured Environments},
+  journal   = {arXiv preprint arXiv:2401.04791},
+  year      = {2024},
+}
 ```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/mit-acl/clipper/uncertain-localization/batvik-seasonal-dataset-loader/-/settings/integrations)
+For questions related to this repository, feel free to contact Jouko Kinnari.
 
-## Collaborate with your team
+## Preparations
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+### Setting up a Python environment
 
-## Test and Deploy
+A working Python environment is listed in `requirements.txt`.
 
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### Downloading data
+Download the data from the [url shown on the paper website](https://acl.mit.edu/SOS-Match/).
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+The file `readBatvikData.py` contains a script that reads the data and image filenames from a data folder and provides a dict with Numpy arrays containing relevant data.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+The file `plotBatvikData.py` contains plotting scripts for visualizing the data. The easiest way to explore the data is to run the plotting script to visualize the parameters recorded in the data:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+```
+python3 plotBatvikData.py --path=../batvik-seasonal-dataset/Early\ Spring/ --orthotiff=../orthophotos/K4224H.jp2
+```
+The `--orthotiff` parameter is optional and can be used for specifying a map image over which the drone's trajectory is plotted.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Remarks on the quality of the data
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+The data was recorded with a somewhat unoptimal hardware setup (the hardware was designed for a surveillance application and not for photogrammetry). Due to the hardware configuration in the drone used for data collection, a part of the data was collected at a high image resolution, which caused some timing jitter on the timestamps of the images. The resolution was later configured to a lower one, hence some of the data have higher resolution images than others.
 
-## License
-For open source projects, say how it is licensed.
+The ground truth position infromation is from a non-RTK GPS. What comes to altitude measurements, the drone was equipped with a downward-facing LIDAR sensor and also two barometers. The LIDAR range is about 20m, so it only shows a meaningful measurement value when the drone is ascending or descending near the start and return locations.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+On ground truth orientation information: The camera orientation information is computed as a combination of two transformations. First, the drone frame pose is estimated by the drone flight controller EKF and second, the orientation of the camera with respect to the drone frame is measured with rotation encoders in the camera gimbal. So do expect some error with the orientation information as well - it won't be pixel perfect if you e.g. compute the reprojection error of the same landmark observed from two different places.
+
+## Camera parameters
+
+The following camera parameters are given for an image scaled to a resolution 960 by 540 pixels. For higher resolution images (e.g. Early Spring), first scale them to 960 by 540 pixels.
+
+```
+   distortion_parameters:
+      k1: -0.10381091174304308
+      k2: 0.06234361571694061
+      p1: 0.00280555268843055
+      p2: -0.0011575804154380536
+      k3: 0
+   projection_parameters:
+      fx: 782.215325118697
+      fy: 777.15751271533485
+      cx: 498.33643785710705
+      cy: 280.9999085826019
+      s: 0
+   image_dimensions:
+      w: 960
+      h: 540
+```
+
+## How to download an orhtophoto
+
+In order to use the Båtvik seasonal dataset, you do not need to download an orthophoto, but for convenience, instructions for downloading one are provided below.
+
+A high-quality orthophoto of the area is available via [National Land Survey of Finland](https://www.maanmittauslaitos.fi/en). The license of National Land Survey of Finland does not permit redistributing the map data, hence you have to download it yourself.
+
+See in particular the page [MapSite "Download geospatial data" service](https://asiointi.maanmittauslaitos.fi/karttapaikka/tiedostopalvelu?lang=en)
+- Click "Orthophoto"
+- Find the tile K4224H (you can find it by searching for Båtvik, Kirkkonummi) and add it to the shopping cart
+- Click "Go to checkout" and fill your name and email, then click "Order"
+- Follow the instructions in your mailbox to download the map tile.
+
+Note that the National Land Survey of Finland download service also offers elevation data, should you need it for your own research.
