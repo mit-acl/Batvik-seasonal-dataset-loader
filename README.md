@@ -12,7 +12,7 @@ Paper: https://arxiv.org/abs/2401.04791
 
 The dataset contains recordings of six flights along the same trajectory in coastal Finland. The flights take place at different times of the year. The images contain significant seasonal appearance variation.
 
-The following measurements, and much more, are available in the dataset:
+The following measurements, as well as a few others, are available in the dataset:
 - Image frames from a camera carried by a drone
 - Camera position and orientation information in a georeferenced coordinate system
 - Raw IMU data
@@ -62,7 +62,9 @@ The `--orthotiff` parameter is optional and can be used for specifying a map ima
 
 The data was recorded with a somewhat unoptimal hardware setup (the hardware was designed for a surveillance application and not for photogrammetry). Due to the hardware configuration in the drone used for data collection, a part of the data was collected at a high image resolution, which caused some timing jitter on the timestamps of the images. The resolution was later configured to a lower one, hence some of the data have higher resolution images than others.
 
-The ground truth position infromation is from a non-RTK GPS. The camera orientation information is computed as a combination of two transformations. First, the drone frame pose is estimated by the drone flight controller EKF and second, the orientation of the camera with respect to the drone frame is measured with rotation encoders in the camera gimbal. So do expect some error with the orientation information as well - it won't be pixel perfect if you e.g. compute the reprojection error of the same landmark observed from two different places.
+The data was recorded with a somewhat unoptimal hardware setup (the hardware was designed for a surveillance application and not for photogrammetry). A part of the data was collected at a higher image resolution initially, but it was later detected that a high resolution caused significant jitter on image acquisition times due to a hardware issue. Therefore, the resolution was later configured to a lower one. Hence some of the flights have higher image resolution than others.
+
+The ground truth position infromation is from a non-RTK GPS. The camera orientation information is computed as a combination of two transformations. First, the drone frame pose is estimated by the drone flight controller EKF and second, the orientation of the camera with respect to the drone frame is measured with rotation encoders in the camera gimbal. Therefore, expect an unquantified amount of error with the orientation information.
 
 The drone was equipped with a downward-facing LIDAR sensor and two barometers. The LIDAR range is about 20m, so it only shows a meaningful measurement value when the drone is ascending or descending near the start and return locations.
 
@@ -94,7 +96,7 @@ In order to use the Båtvik seasonal dataset, you do not need to download an ort
 
 A high-quality orthophoto of the area is available via [National Land Survey of Finland](https://www.maanmittauslaitos.fi/en). The license of National Land Survey of Finland does not permit redistributing the map data, hence you have to download it yourself.
 
-See in particular the page [MapSite "Download geospatial data" service](https://asiointi.maanmittauslaitos.fi/karttapaikka/tiedostopalvelu?lang=en)
+See in particular the page [MapSite "Download geospatial data" service](https://asiointi.maanmittauslaitos.fi/karttapaikka/tiedostopalvelu?lang=en) and
 - Click "Orthophoto"
 - Find the tile K4224H (you can find it by searching for Båtvik, Kirkkonummi) and add it to the shopping cart
 - Click "Go to checkout" and fill your name and email, then click "Order"

@@ -132,7 +132,7 @@ def getBatvikData(pathToData, removeAltOffsetWrtMin=False):
     retval["servos"]=servos
     retval["image_filenames"] = image_filenames
 
-    # From Euler angles, compute rotation matrices and orientation quaternions for drone body with respect to navigation frame
+    # From Euler angles, compute rotation matrices for drone body with respect to navigation frame
     Rs_nav_body = eulerVectsToR(mavlink_roll, mavlink_pitch, mavlink_yaw, True)
 
     # Also compute camera orientation with respect to body frame

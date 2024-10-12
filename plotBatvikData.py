@@ -95,7 +95,7 @@ def visualizeCameraPoseAtImagingTimes(data, everyNth=100):
     return vis.getFigAndAx()
 
 
-def plotData(data, titleText, mapFile=None):
+def plotData(data, mapFile=None):
     
     fig1, ax1 = plt.subplots()
     ax1.plot(data["mavlink_lon"],data["mavlink_lat"])
@@ -190,12 +190,12 @@ def plotData(data, titleText, mapFile=None):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path", help="Path to the folder containing the data for one flight", required=True)
+    parser.add_argument("--path", help="Path to the folder containing data for one flight", required=True)
     parser.add_argument("--orthotiff", help="Path to an aerial image of the region where the flight took place", default=None)
     args = parser.parse_args()
 
     data = getBatvikData(args.path)
 
-    plotData(data, "example", args.orthotiff)
+    plotData(data, args.orthotiff)
 
     plt.show()
