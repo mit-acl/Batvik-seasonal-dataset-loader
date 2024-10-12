@@ -2,15 +2,8 @@
 # Jouko Kinnari, jouko.kinnari@saabgroup.com, 2020
 
 import numpy as np
-try:
-    import matplotlib
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-except ImportError:
-    pass
-import scipy
+import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation as ScipyRot
-
 
 class Visualizer:
     def __init__(self, ax=None):
@@ -42,8 +35,7 @@ class Visualizer:
 
     def set3Dplotaxes(self):
         # In matplotlib, ax.set_aspect('equal') has not been implemented for whatever reason.
-        # A workaround was found from here: https://python-decompiler.com/article/2012-12/matplotlib-equal-unit-length-with-equal-aspect-ratio-z-axis-is-not-equal-to
-        # Create cubic bounding box to simulate equal aspect ratio
+        # Create cubic bounding box to simulate equal aspect ratio.
         
         if (self.xmin is None):
 
@@ -82,7 +74,7 @@ class Visualizer:
         Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(xmax+xmin)
         Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(ymax+ymin)
         Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(zmax+zmin)
-        # Comment or uncomment following both lines to test the fake bounding box:
+        
         for xb, yb, zb in zip(Xb, Yb, Zb):
            self.ax.plot([xb], [yb], [zb], 'w')
 
@@ -259,18 +251,6 @@ class Visualizer:
     def show(self):
         plt.show()
 
-def set3Dplotaxes(ax,xmin,xmax,ymin,ymax,zmin,zmax):
-    # In matplotlib, ax.set_aspect('equal') has not been implemented for whatever reason.
-    # A workaround was found from here: https://python-decompiler.com/article/2012-12/matplotlib-equal-unit-length-with-equal-aspect-ratio-z-axis-is-not-equal-to
-    # Create cubic bounding box to simulate equal aspect ratio
-    max_range = np.array([xmax-xmin, ymax-ymin, zmax-zmin]).max()
-    Xb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][0].flatten() + 0.5*(xmax+xmin)
-    Yb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][1].flatten() + 0.5*(ymax+ymin)
-    Zb = 0.5*max_range*np.mgrid[-1:2:2,-1:2:2,-1:2:2][2].flatten() + 0.5*(zmax+zmin)
-    # Comment or uncomment following both lines to test the fake bounding box:
-    for xb, yb, zb in zip(Xb, Yb, Zb):
-       ax.plot([xb], [yb], [zb], 'w')
-
 def runTests():
     print("Running tests")
 
@@ -295,33 +275,12 @@ def runTests():
         angle_around_y = np.random.uniform(low=0,high=2*np.pi)
         angle_around_z = np.random.uniform(low=0,high=2*np.pi)
 
-        R = ScipyRot.from_euler('zyx', [angle_around_z, angle_around_y, angle_around_x], degrees=False).as_dcm()
+        R = ScipyRot.from_euler('zyx', [angle_around_z, angle_around_y, angle_around_x], degrees=False).as_matrix()
 
         vis.addCamera(R,[cam_x,cam_y,cam_z], "Camera {}".format(c),color='r',imagePlaneDepth=5)
 
     vis.visualize()
     vis.show()
-
-
-def visualizeScoreHistograms(correctScores, incorrectScores, numBins=30, ax=None):
-    if ax is None:
-        fig, ax = plt.subplots()
-
-    counts_corr, bins = np.histogram(correctScores, bins=numBins, range=(0.0,1.0), density=True)
-    counts_incorr, bins_incorr = np.histogram(incorrectScores, bins=bins, density=True)
-
-    #ax.hist(correctScores,density=True,label="correct")
-    #ax.hist(incorrectScores,density=True,label="incorrect")
-    ax.stairs(counts_corr,bins,label="correct")
-    ax.stairs(counts_incorr,bins,label="incorrect")
-
-    counts_all = np.vstack((counts_corr,counts_incorr))
-
-    #ax.text(0.5,np.max(counts_all)/2, f"iou={iou:.3f}")
-
-    ax.legend()
-
-    return ax
 
 def show():
     plt.show()
